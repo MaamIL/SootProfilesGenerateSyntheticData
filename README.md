@@ -26,7 +26,7 @@ Generating synthetic data for deep models that extract soot properties from flam
   - [Appendix B - Generate Data Matlab Code](#appendix-b---generate-data-matlab-code)
   - [Appendix C - SootImage Matlab Code](#appendix-c---sootimage-matlab-code)
 
-<a id="introduction"></a>
+
 ## Introduction
 
 Our research relies on flame RGB images for investigating soot properties. My role is to create a deep learning model for extracting the soot properties upon a given RGB digital camera image of an axisymmetric laminar flame. For me to train such a model, I need data. Existing simulators have their downside as they are slow, not very accurate and complicated for configuration. There was a big need for creating such synthetic data.
@@ -36,7 +36,7 @@ Victor created a few Matlab files calculating properties of 3 vectors of the fla
 ![Synthetic Data Creation Process](Images/intro.png "Synthetic Data Creation Process")
 
 ## Generate Fv, T Data
-<a id="generate-fv-t-data"></a>
+
 Generating the data is done with a few random picks. Therefore, there are a few restrictions that must be verified before the data generated is accepted for next steps.
 
 Once the two heights (h_top, h_maxFv), three Fv vectors (fbase, fmaxFv, ftop) and three T vectors (tbase, tmaxFv, ttop) are generated as detailed below, the data goes through a number of verification steps as detailed in [Appendix A](#appendix-a---accepting-data-restrictions). If verification fails, the data is regenerated until all terms and restrictions are met.
@@ -195,7 +195,7 @@ Last thing I do is to generate an image out of `CFDImage.mat` and save an `info.
   <img src="Images/flame_CFDImage_image.png" alt="Images/flame_CFDImage_image.png" height="500">
 </div>  
 
-<a id="results"></a>
+
 ## Results
 
 For the DL model, I need data from:
