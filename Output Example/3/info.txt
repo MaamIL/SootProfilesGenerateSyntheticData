@@ -1,0 +1,28 @@
+
+            h_maxFv: 321
+            h_top: 672
+            Fv Data:
+            fbase  - generatef(1): 63 	max: [1.17806547]
+            fmaxFv  - generatef(4): 53 	max: [7.60511931]
+            ftop  - generatef(7): 38 	max: [5.35987846]
+            Fv Matrix shape: (682, 113)
+            Fv Flame contour: Path(array([[  0.,   0.],
+       [ 63.,   0.],
+       [ 53., 321.],
+       [ 38., 672.],
+       [  0., 672.],
+       [  0.,   0.]]), None)
+            T Data:
+            tbase  - generatet(1): 154 	max: [2103.95489967]
+            tmaxFv  - generatet(4): 210 	max: [2012.6499241]
+            ttop  - generatet(7): 200 	max: [1697.98282475]
+            T Matrix shape: (682, 113)
+            T Flame contour: Path(array([[  0.,   0.],
+       [154.,   0.],
+       [210., 321.],
+       [200., 672.],
+       [  0., 672.],
+       [  0.,   0.]]), None)
+            r shape: (113,)
+            z shape: (682,)
+            
