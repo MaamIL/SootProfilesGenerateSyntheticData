@@ -26,16 +26,17 @@ Generating synthetic data for deep models that extract soot properties from flam
   - [Appendix B - Generate Data Matlab Code](#appendix-b---generate-data-matlab-code)
   - [Appendix C - SootImage Matlab Code](#appendix-c---sootimage-matlab-code)
 
+<a id="introduction"></a>
 ## Introduction
 
 Our research relies on flame RGB images for investigating soot properties. My role is to create a deep learning model for extracting the soot properties upon a given RGB digital camera image of an axisymmetric laminar flame. For me to train such a model, I need data. Existing simulators have their downside as they are slow, not very accurate and complicated for configuration. There was a big need for creating such synthetic data.
 
 Victor created a few Matlab files calculating properties of 3 vectors of the flame. After filtering out problematic data based on a linear interpolation, I completed values of Fv (soot fractions volume) and T (temperature) in each pixel of the flame. I then used Victor's sootImage for creating an RGB image of the flame upon the given generated data.
 
-![Synthetic Data Creation Process](images/intro.png "Synthetic Data Creation Process")
+![Synthetic Data Creation Process](Images/intro.png "Synthetic Data Creation Process")
 
 ## Generate Fv, T Data
-
+<a id="generate-fv-t-data"></a>
 Generating the data is done with a few random picks. Therefore, there are a few restrictions that must be verified before the data generated is accepted for next steps.
 
 Once the two heights (h_top, h_maxFv), three Fv vectors (fbase, fmaxFv, ftop) and three T vectors (tbase, tmaxFv, ttop) are generated as detailed below, the data goes through a number of verification steps as detailed in [Appendix A](#appendix-a---accepting-data-restrictions). If verification fails, the data is regenerated until all terms and restrictions are met.
@@ -56,15 +57,19 @@ When relating to the base of the flame, height 0.
 
 Once I have h_maxFv and h_top heights, I run Matlab functions to generate 3 vectors of soot fractions volume in every height (base, maxFv, top):
 
-```matlab
+```
 fbase = generatef(1)
 fmaxFv = generatef(4)
 ftop = generatef(7)
 ```
-
+<div align="center">
+  <img src="Images/fvvectors.png" alt="Images/fvvectors.png" width="300">
+</div>
 Now I know the size of each vector in every height, I can create the flame's Fv contour.
 
 The Fv contour will be the flame's edges I will regard to when dealing with both the soot fractions volume and the temperature properties.
+
+<img src="Images/fbase_fmaxFv_ftop_plot.png" alt="Images/fbase_fmaxFv_ftop_plot.png" width="500"><img src="Images/fbase_fmaxFv_ftop_plot_inHeights.png" alt="Images/fbase_fmaxFv_ftop_plot_inHeights.png" width="500">
 
 Notice fmaxFv holds the highest Fv value and `len(fbase) > len(fmaxFv) > len(ftop)`. Both restrictions are by definition.
 
@@ -74,17 +79,21 @@ See [Appendix A](#appendix-a---accepting-data-restrictions) for all restrictions
 
 Next, I generate the temperature vectors. Here too I regard h_maxFv and h_top heights. I run Matlab functions to generate 3 vectors of temperature in every height (base, maxFv, top):
 
-```matlab
+```
 tbase = generateT(1)
 tmaxFv = generateT(4)
 ttop = generateT(7)
 ```
-
+<div align="center">
+  <img src="Images/tvectors.png" alt="Images/tvectors.png" width="300">
+</div>
 For some reason, the T vectors are generated vertically, so I transpose them before continuing.
 
 Flame's T contour is different than flame's Fv contour. It is generally wider, and there is no rule as for which section (ttop, tmaxFv or tbase) is wider.
 
 In any case, populating tmatrix is done according to flame's Fv contour.
+
+<img src="Images/tbase_tmaxFv_ttop_plot.png" alt="Images/tbase_tmaxFv_ttop_plot.png" width="500"><img src="Images/tbase_tmaxFv_ttop_plot_inHeights.png" alt="Images/tbase_tmaxFv_ttop_plot_inHeights.png" width="500">
 
 See [Appendix A](#appendix-a---accepting-data-restrictions) for all restrictions for accepting the generated data.
 
@@ -118,6 +127,9 @@ After generating the 3 Fv vectors, I want to populate the Fv matrix. I run on ea
    
    - **If x is outside the range of top_vector** (so `top_vector[x]` does not exist), and the current matrix value is 0: Interpolate between `base[x]` and a small constant value of 0.1, using the same weight:  
      `(1 - weight) * bottom_vector[x] + weight * 0.1`
+     
+<img src="Images/Fv_flame_plot_contour.png" alt="Images/Fv_flame_plot_contour.png" width="300"><img src="Images/Fv_flame_plot_noContour.png" alt="Images/Fv_flame_plot_noContour.png" width="300">
+
 
 ### T Matrix
 
@@ -151,7 +163,9 @@ After generating the 3 T vectors, I want to populate the T matrix. I run on each
    - **If x is outside the range of fbase vector** (so `top_vector[x]` does not exist), and the current matrix value is 300: Interpolate between `top[x]` and a constant value of 300, using the same weight:  
      `matrix[y, x] = (1 - weight) * 300 + weight * top_vector[x].item()`
 
-*Note: Flame T is populated according to Flame Fv contour.*
+<img src="Images/T_flame_plot_contour.png" alt="Images/T_flame_plot_contour.png" width="300"><img src="Images/T_flame_plot_noContour.png" alt="Images/T_flame_plot_noContour.png" width="300">
+
+*Flame T is populated according to Flame Fv contour. In Blue- T contour*
 
 ## Generate RGB Image
 
@@ -177,6 +191,11 @@ Using sootImage tool (MATLAB files) with `sootCalculation.mat` as an input, I ge
 
 Last thing I do is to generate an image out of `CFDImage.mat` and save an `info.txt` about the run.
 
+<div align="center">
+  <img src="Images/flame_CFDImage_image.png" alt="Images/flame_CFDImage_image.png" height="500">
+</div>  
+
+<a id="results"></a>
 ## Results
 
 For the DL model, I need data from:
