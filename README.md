@@ -32,6 +32,8 @@ Our research relies on flame RGB images for investigating soot properties. My ro
 
 Victor created a few Matlab files calculating properties of 3 vectors of the flame. After filtering out problematic data based on a linear interpolation, I completed values of Fv (soot fractions volume) and T (temperature) in each pixel of the flame. I then used Victor's sootImage for creating an RGB image of the flame upon the given generated data.
 
+![Synthetic Data Creation Process](images/intro.png "Synthetic Data Creation Process")
+
 ## Generate Fv, T Data
 
 Generating the data is done with a few random picks. Therefore, there are a few restrictions that must be verified before the data generated is accepted for next steps.
